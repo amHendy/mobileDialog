@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset="utf-8">
+	<meta name='viewport' content='width=device-width,initial-scale=1.0, maximum-scale=1,user-scalable=no'>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name=”apple-mobile-web-app-status-bar-style” content=”default” />
+	<meta name=”apple-mobile-web-app-status-bar-style” content=”black” />
+	<meta name="format-detection" content="telephone=yes"/>
+	<title>移动web组件——Dialog对话框</title>
+	<link rel="stylesheet" type="text/css" href="dialog.css">
+	<link rel="stylesheet" type="text/css" href="base.css">
+</head>
+<body>
+	<button class="btns " id='btn1'>没有传递任何参数（需手动关闭）</button>
+	<button class="btns " id='btn2'>弹出一个不带任何按钮，且是警告框，并且2秒后自动关闭</button>
+	<button class="btns" id='btn3'>弹出一个有确认按钮和取消按钮的成功框，点击按钮直接关闭</button>
+	<button class="btns" id='btn4'>弹出一个有确认按钮的警告框，点击按钮不关闭（需手动关闭）</button>
+	<button class="btns" id='btn5'>弹出一个多组合的按钮框，且按钮样式可定制</button>
+	<button class="btns" id='btn6'>弹出一个确认和删除的框，点击确认弹出加载框2秒自动关闭，点击删除按钮把上一次框关闭</button>
+	<script type="text/javascript" src='zepto-1.2.0.js'></script>
+	<script type="text/javascript" src='dialog.js'></script>
+	<script type="text/javascript">
+		$('#btn1').tap(function(){
+			var d = $.dialog();
+		});
+
+		$('#btn2').tap(function(){
+			var d = $.dialog({
+				type:'warning',
+				buttons : [
+					{
+						type : 'green',
+						text:'确定',
+						callback : function(){
+
+							return false;
+						}
+					},
+					{
+						type : 'red',
+						text : '删除'
+					}
+				],
+				/*delay:2000,
+				delayCallback : function(){
+					alert('1111111');
+				},*/
+				maskClose : true,
+				effect : true
+			});
+		});
+
+		$('#btn3').tap(function(){
+			var d = $.dialog({
+				type:'ok',
+				message : '大王叫我来巡山',
+				buttons:[
+					{
+						type:'green',
+						text:'确认',
+						callback : function(){
+							alert('点我白费力，不能帮你闭！');
+							return false;
+						}
+					},
+					{
+						type:'red',
+						text:'取消',
+						callback : function(){
+							alert('关闭请找我，立马就隐去')
+						}
+					}
+				],
+				effect : true
+			});
+		});
+
+		$('#btn4').tap(function(){
+			var d = $.dialog({
+				type:'warning',
+				buttons:[
+					{
+						type:'green',
+						text:'确认',
+						callback : function(){
+							return false;
+						}
+					}
+				]
+			});
+		});
+
+		$('#btn5').tap(function(){
+			var d = $.dialog({
+				buttons:[
+					{
+						text:'我骄傲'
+					},
+					{
+						type : 'green',
+						text:'确认'
+					},
+					{
+						type : 'red',
+						text:'取消'
+					}
+				]
+			});
+		});
+
+		$('#btn6').tap(function(){
+			var d = $.dialog({
+				buttons:[
+					{
+						type : 'green',
+						text:'确认',
+						callback : function(){
+							var dd = $.dialog({
+								type : 'waiting',
+								delay : 2000
+							});
+						}
+					},
+					{
+						type : 'red',
+						text:'删除',
+						callback : function(){
+
+						}
+					}
+				]
+			});
+		});
+	</script>
+</body>
+</html>
